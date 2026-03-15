@@ -49,9 +49,21 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 20px;
             font-weight: 700;
             letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .logo:hover { text-decoration: none; }
+
+        .logo img {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
         }
 
         .logo span { color: var(--accent-light); }
@@ -578,7 +590,7 @@
 <body>
 
 <nav>
-    <div class="logo">Whisper<span>Key</span></div>
+    <a href="/" class="logo"><img src="/icon-128.png" alt="WhisperKey icon">Whisper<span>Key</span></a>
     <div class="nav-links">
         <a href="#models">Models</a>
         <a href="#how">How It Works</a>
@@ -592,6 +604,8 @@
         <span class="badge-dot"></span>
         100% Local &middot; No cloud, no data leaves your machine
     </div>
+
+    <img src="/icon-128.png" alt="WhisperKey" width="96" height="96" style="border-radius: 22%; margin-bottom: 24px; box-shadow: 0 8px 40px rgba(91, 59, 181, 0.3);">
 
     <h1>Voice to text,<br><span class="highlight">instantly.</span></h1>
 
