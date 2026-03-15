@@ -88,7 +88,7 @@
     },
     "permissions": {
       "title": "الأذونات المطلوبة",
-      "description": ".يحتاج Handy إلى بعض الأذونات ليعمل بشكل صحيح",
+      "description": ".يحتاج WhisperKey إلى بعض الأذونات ليعمل بشكل صحيح",
       "microphone": {
         "title": "الوصول إلى الميكروفون",
         "description": ".مطلوب لسماع صوتك من أجل التفريغ الصوتي"
@@ -140,7 +140,7 @@
     "general": {
       "title": "عام",
       "shortcut": {
-        "title": "اختصارات Handy",
+        "title": "اختصارات WhisperKey",
         "description": "إعداد اختصارات لوحة المفاتيح لبدء تسجيل التفريغ الصوتي",
         "loading": "...جاري تحميل الاختصارات",
         "none": "لا توجد اختصارات مجهزة",
@@ -221,11 +221,11 @@
       },
       "autostart": {
         "label": "التشغيل عند بدء التشغيل",
-        "description": ".بدء تشغيل Handy تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
+        "description": ".بدء تشغيل WhisperKey تلقائياً عند تسجيل الدخول إلى جهاز الكمبيوتر الخاص بك"
       },
       "showTrayIcon": {
         "label": "إظهار أيقونة شريط النظام",
-        "description": ".عرض أيقونة Handy في شريط النظام"
+        "description": ".عرض أيقونة WhisperKey في شريط النظام"
       },
       "overlay": {
         "title": "موقع التراكب",
@@ -386,7 +386,7 @@
       },
       "updateChecks": {
         "label": "التحقق من وجود تحديثات",
-        "description": "التحقق تلقائياً من وجود إصدارات جديدة من Handy"
+        "description": "التحقق تلقائياً من وجود إصدارات جديدة من WhisperKey"
       },
       "soundTheme": {
         "label": "سمة الصوت",
@@ -450,11 +450,11 @@
       "title": "حول",
       "version": {
         "title": "الإصدار",
-        "description": "الإصدار الحالي من Handy"
+        "description": "الإصدار الحالي من WhisperKey"
       },
       "appDataDirectory": {
         "title": "مجلد بيانات التطبيق",
-        "description": "الموقع الذي يخزن فيه Handy بياناته"
+        "description": "الموقع الذي يخزن فيه WhisperKey بياناته"
       },
       "sourceCode": {
         "title": "كود المصدر",
@@ -463,7 +463,7 @@
       },
       "supportDevelopment": {
         "title": "دعم التطوير",
-        "description": "ساعدنا في مواصلة بناء Handy",
+        "description": "ساعدنا في مواصلة بناء WhisperKey",
         "button": "تبرع"
       },
       "acknowledgments": {
@@ -471,7 +471,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "استنتاج عالي الأداء لنموذج التعرف التلقائي على الكلام Whisper من OpenAI",
-          "details": ".يستخدم Handy برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
+          "details": ".يستخدم WhisperKey برنامج Whisper.cpp لمعالجة سريعة ومحلية لتحويل الكلام إلى نص. شكراً للعمل الرائع الذي قام به Georgi Gerganov والمساهمون"
         }
       }
     },
@@ -536,7 +536,7 @@
   },
   "accessibility": {
     "permissionsRequired": "أذونات إمكانية الوصول مطلوبة",
-    "permissionsDescription": ".يحتاج Handy إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
+    "permissionsDescription": ".يحتاج WhisperKey إلى أذونات إمكانية الوصول لكتابة النص المفرغ",
     "openSettings": "فتح إعدادات النظام",
     "dismiss": "تجاهل"
   },
@@ -548,7 +548,7 @@
   },
   "appLanguage": {
     "title": "لغة التطبيق",
-    "description": "تغيير لغة واجهة Handy"
+    "description": "تغيير لغة واجهة WhisperKey"
   },
   "overlay": {
     "transcribing": "...جاري التفريغ",
