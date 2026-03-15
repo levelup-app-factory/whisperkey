@@ -32,7 +32,8 @@ const WhisperKeyTextLogo = ({
         fontSize="38"
         letterSpacing="-0.5"
       >
-        WhisperKey
+        {/* Brand name — not translatable */}
+        {"WhisperKey"}
       </text>
     </svg>
   );
