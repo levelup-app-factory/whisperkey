@@ -40,3 +40,7 @@ blob-report/
 
 # Nix build output
 result
+
+# Website build artifacts
+*.dmg
+website/.firebase/
