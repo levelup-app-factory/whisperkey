@@ -17,15 +17,19 @@ Based on [Handy](https://github.com/cjpais/Handy) by CJ Pais.
 
 1. **Press** a configurable keyboard shortcut to start/stop recording (or use push-to-talk mode)
 2. **Speak** your words while the shortcut is active
-3. **Release** and WhisperKey processes your speech using Whisper
+3. **Release** and WhisperKey processes your speech locally
 4. **Get** your transcribed text pasted directly into whatever app you're using
 
 The process is entirely local:
 
 - Silence is filtered using VAD (Voice Activity Detection) with Silero
-- Transcription uses your choice of models:
-  - **Whisper models** (Small/Medium/Turbo/Large) with GPU acceleration when available
-  - **Parakeet V3** - CPU-optimized model with excellent performance and automatic language detection
+- Transcription uses your choice of 6 engine types and 12 models:
+  - **Whisper** (Small, Medium, Turbo, Large) — GPU-accelerated when available
+  - **Whisper Breeze ASR** — fine-tuned for Mandarin + code-switching
+  - **Parakeet** (V2, V3) — CPU-optimized with automatic language detection
+  - **Moonshine** (Base, V2 Tiny, V2 Small, V2 Medium) — lightweight and fast
+  - **SenseVoice** — multilingual speech understanding
+  - **GigaAM v3** — Russian-optimized recognition
 - Works on Windows, macOS, and Linux
 
 ## Quick Start
@@ -49,8 +53,10 @@ WhisperKey is built as a Tauri application combining:
 - **Frontend**: React + TypeScript with Tailwind CSS for the settings UI
 - **Backend**: Rust for system integration, audio processing, and ML inference
 - **Core Libraries**:
-  - `whisper-rs`: Local speech recognition with Whisper models
-  - `transcription-rs`: CPU-optimized speech recognition with Parakeet models
+  - `transcribe-rs` (v0.2.8): Unified speech recognition crate (features: whisper, parakeet, moonshine, sense_voice, gigaam)
+  - `handy-keys` (v0.2.4): Keyboard shortcut handling
+  - `ferrous-opencc` (v0.2.3): Chinese text conversion (Traditional/Simplified)
+  - `clap` (v4): Command-line argument parsing
   - `cpal`: Cross-platform audio I/O
   - `vad-rs`: Voice Activity Detection
   - `rdev`: Global keyboard shortcuts and system events
@@ -210,12 +216,12 @@ The following are recommendations for running WhisperKey on your own machine.
 - **Linux**: Intel, AMD, or NVIDIA GPU
   - Ubuntu 22.04, 24.04
 
-**For Parakeet V3 Model:**
+**For CPU-based Models (Parakeet, Moonshine, SenseVoice, GigaAM):**
 
 - **CPU-only operation** - runs on a wide variety of hardware
 - **Minimum**: Intel Skylake (6th gen) or equivalent AMD processors
-- **Performance**: ~5x real-time speed on mid-range hardware (tested on i5)
-- **Automatic language detection** - no manual language selection required
+- **Moonshine models** are the lightest (31-192 MB) and run well on low-end hardware
+- **Parakeet V3** has automatic language detection - no manual language selection required
 
 ## Troubleshooting
 
@@ -257,11 +263,27 @@ Download the models you want from below
 - Medium (492 MB): `https://blob.handy.computer/whisper-medium-q4_1.bin`
 - Turbo (1600 MB): `https://blob.handy.computer/ggml-large-v3-turbo.bin`
 - Large (1100 MB): `https://blob.handy.computer/ggml-large-v3-q5_0.bin`
+- Breeze ASR (1080 MB): `https://blob.handy.computer/breeze-asr-q5_k.bin`
 
 **Parakeet Models (compressed archives):**
 
 - V2 (473 MB): `https://blob.handy.computer/parakeet-v2-int8.tar.gz`
 - V3 (478 MB): `https://blob.handy.computer/parakeet-v3-int8.tar.gz`
+
+**Moonshine Models (compressed archives):**
+
+- Base (58 MB): `https://blob.handy.computer/moonshine-base.tar.gz`
+- V2 Tiny (31 MB): `https://blob.handy.computer/moonshine-tiny-streaming-en.tar.gz`
+- V2 Small (100 MB): `https://blob.handy.computer/moonshine-small-streaming-en.tar.gz`
+- V2 Medium (192 MB): `https://blob.handy.computer/moonshine-medium-streaming-en.tar.gz`
+
+**SenseVoice Model (compressed archive):**
+
+- SenseVoice (160 MB): `https://blob.handy.computer/sense-voice-int8.tar.gz`
+
+**GigaAM Model (single .onnx file):**
+
+- GigaAM v3 (225 MB): `https://blob.handy.computer/giga-am-v3.int8.onnx`
 
 #### Step 4: Install Models
 
@@ -274,7 +296,8 @@ Simply place the `.bin` file directly into the `models` directory:
 ├── ggml-small.bin
 ├── whisper-medium-q4_1.bin
 ├── ggml-large-v3-turbo.bin
-└── ggml-large-v3-q5_0.bin
+├── ggml-large-v3-q5_0.bin
+└── breeze-asr-q5_k.bin
 ```
 
 **For Parakeet Models (.tar.gz archives):**
@@ -285,10 +308,34 @@ Simply place the `.bin` file directly into the `models` directory:
    - **Parakeet V2**: `parakeet-tdt-0.6b-v2-int8`
    - **Parakeet V3**: `parakeet-tdt-0.6b-v3-int8`
 
+**For Moonshine Models (.tar.gz archives):**
+
+1. Extract the `.tar.gz` file
+2. Place the **extracted directory** into the `models` folder
+3. The directory must be named exactly as follows:
+   - **Base**: `moonshine-base`
+   - **V2 Tiny**: `moonshine-tiny-streaming-en`
+   - **V2 Small**: `moonshine-small-streaming-en`
+   - **V2 Medium**: `moonshine-medium-streaming-en`
+
+**For SenseVoice (.tar.gz archive):**
+
+1. Extract the `.tar.gz` file
+2. Place the **extracted directory** named `sense-voice-int8` into the `models` folder
+
+**For GigaAM (.onnx file):**
+
+Simply place the `.onnx` file directly into the `models` directory:
+
+```
+{app_data_dir}/models/
+└── giga-am-v3.int8.onnx
+```
+
 **Important Notes:**
 
-- For Parakeet models, the extracted directory name **must** match exactly as shown above
-- Do not rename the `.bin` files for Whisper models—use the exact filenames from the download URLs
+- For directory-based models (Parakeet, Moonshine, SenseVoice), the extracted directory name **must** match exactly as shown above
+- Do not rename the `.bin` or `.onnx` files for single-file models -- use the exact filenames from the download URLs
 - After placing the files, restart WhisperKey to detect the new models
 
 #### Step 5: Verify Installation

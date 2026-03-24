@@ -48,17 +48,46 @@ WhisperKey is a cross-platform desktop speech-to-text app built with Tauri 2.x (
   - `audio/` - Device enumeration, recording, resampling
   - `vad/` - Voice Activity Detection (Silero VAD)
 - `commands/` - Tauri command handlers for frontend communication
-- `shortcut.rs` - Global keyboard shortcut handling
+- `shortcut/` - Global keyboard shortcut handling:
+  - `mod.rs` - Module exports
+  - `handler.rs` - Shortcut event handler
+  - `handy_keys.rs` - Key mapping via handy-keys crate
+  - `tauri_impl.rs` - Tauri integration
 - `settings.rs` - Application settings management
+- `actions.rs` - User action definitions
+- `clipboard.rs` - Clipboard access
+- `overlay.rs` - Recording overlay window
+- `tray.rs` - System tray management
+- `tray_i18n.rs` - Tray menu translations
+- `transcription_coordinator.rs` - Orchestrates transcription pipeline
+- `input.rs` - Text input/paste methods
+- `llm_client.rs` - LLM post-processing client
+- `apple_intelligence.rs` - Apple Intelligence integration (macOS)
+- `audio_feedback.rs` - Audio feedback sounds
+- `portable.rs` - Portable mode support
+- `utils.rs` - Shared utility functions
+- `helpers/` - Helper modules:
+  - `mod.rs` - Module exports
+  - `clamshell.rs` - Clamshell (lid closed) detection
+- `managers/transcription_mock.rs` - Mock transcription for testing
 
 ### Frontend Structure (src/)
 
 - `App.tsx` - Main component with onboarding flow
-- `components/settings/` - Settings UI (35+ files)
+- `components/settings/` - Settings UI (57 files)
 - `components/model-selector/` - Model management interface
 - `components/onboarding/` - First-run experience
-- `hooks/useSettings.ts`, `useModels.ts` - State management hooks
-- `stores/settingsStore.ts` - Zustand store for settings
+- `components/footer/` - App footer
+- `components/icons/` - Custom icon components (6 icons + index)
+- `components/shared/` - Shared components (ProgressBar)
+- `components/ui/` - UI primitives (17 components: Alert, Button, Input, Select, Slider, ToggleSwitch, Tooltip, etc.)
+- `components/update-checker/` - Auto-update checker
+- `hooks/useSettings.ts`, `useOsType.ts` - State management hooks
+- `stores/settingsStore.ts`, `modelStore.ts` - Zustand stores
+- `lib/` - Shared utilities:
+  - `constants/` - App constants (languages)
+  - `types/` - TypeScript type definitions (events)
+  - `utils/` - Utility functions (format, keyboard, modelTranslation, rtl)
 - `bindings.ts` - Auto-generated Tauri type bindings (via tauri-specta)
 - `overlay/` - Recording overlay window code
 
@@ -68,7 +97,7 @@ WhisperKey is a cross-platform desktop speech-to-text app built with Tauri 2.x (
 
 **Command-Event Architecture:** Frontend → Backend via Tauri commands; Backend → Frontend via events.
 
-**Pipeline Processing:** Audio → VAD → Whisper/Parakeet → Text output → Clipboard/Paste
+**Pipeline Processing:** Audio → VAD → Engine (Whisper/Parakeet/Moonshine/SenseVoice/GigaAM) → Text output → Clipboard/Paste
 
 **State Flow:** Zustand → Tauri Command → Rust State → Persistence (tauri-plugin-store)
 
@@ -87,11 +116,24 @@ All user-facing strings must use i18next translations. ESLint enforces this (no 
 src/i18n/
 ├── index.ts           # i18n setup
 ├── languages.ts       # Language metadata
-└── locales/
+└── locales/           # 17 locales
+    ├── ar/translation.json  # Arabic
+    ├── cs/translation.json  # Czech
+    ├── de/translation.json  # German
     ├── en/translation.json  # English (source)
     ├── es/translation.json  # Spanish
     ├── fr/translation.json  # French
-    └── vi/translation.json  # Vietnamese
+    ├── it/translation.json  # Italian
+    ├── ja/translation.json  # Japanese
+    ├── ko/translation.json  # Korean
+    ├── pl/translation.json  # Polish
+    ├── pt/translation.json  # Portuguese
+    ├── ru/translation.json  # Russian
+    ├── tr/translation.json  # Turkish
+    ├── uk/translation.json  # Ukrainian
+    ├── vi/translation.json  # Vietnamese
+    ├── zh/translation.json  # Chinese (Simplified)
+    └── zh-TW/translation.json  # Chinese (Traditional)
 ```
 
 ## Code Style
